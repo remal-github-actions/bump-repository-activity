@@ -28,7 +28,7 @@ async function run(): Promise<void> {
         }).then(it => it.data)
 
         if (commits.length) {
-            core.info(`There is at least one commit since ${minCommitDate}`)
+            core.info(`There is at least one commit since ${minCommitDate}: ${commits[0].html_url}`)
             return
         }
 
