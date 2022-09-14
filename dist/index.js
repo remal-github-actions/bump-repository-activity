@@ -135,11 +135,11 @@ async function run() {
             per_page: 5,
             page: 1,
         }).then(it => it.data);
+        core.debug(`commits = ${JSON.stringify(commits, null, 2)}`);
         if (commits.length) {
             const firstCommit = commits[0];
             core.info(`Skipping bumping repository activity`
                 + `, as there is at least one commit since ${minCommitDate}: ${firstCommit.html_url}`);
-            core.debug(`commits = ${JSON.stringify(commits[0], null, 2)}`);
             return;
         }
         core.info(`No commits found commit since ${minCommitDate}, bumping the repository activity`);
@@ -177,9 +177,10 @@ async function run() {
             repo: github_1.context.repo.repo,
             path: bumperFile,
             message: commitMessage,
-            content: Buffer.from(new Date().toString(), 'utf8').toString('base64'),
+            content: Buffer.from(new Date().toISOString(), 'utf8').toString('base64'),
             sha: bumperFileInfo === null || bumperFileInfo === void 0 ? void 0 : bumperFileInfo.sha,
         }).then(it => it.data);
+        core.debug(`commitResult = ${JSON.stringify(commitResult, null, 2)}`);
         core.info(`Bumper file was updated: ${commitResult.commit.html_url}`);
     }
     catch (error) {
