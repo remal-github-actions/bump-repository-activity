@@ -41,12 +41,34 @@ async function run(): Promise<void> {
         }
 
 
+        const bumperFileInfo = await octokit.repos.getContent({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            path: bumperFile,
+        })
+            .then(it => it.data)
+            .then(it => {
+                if (Array.isArray(it)) {
+                    return it.length ? it[0] : undefined
+                } else {
+                    return it
+                }
+            })
+            .catch(error => {
+                if (error.status && error.status === 404) {
+                    return undefined
+                } else {
+                    throw error
+                }
+            })
+
         const commitResult = await octokit.repos.createOrUpdateFileContents({
             owner: context.repo.owner,
             repo: context.repo.repo,
             path: bumperFile,
             message: commitMessage,
             content: Buffer.from(new Date().toString(), 'utf8').toString('base64'),
+            sha: bumperFileInfo?.sha,
         }).then(it => it.data)
 
         core.info(`Bumper file was updated: ${commitResult.commit.html_url}`)
