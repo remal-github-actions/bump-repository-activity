@@ -126,7 +126,7 @@ const octokit = (0, octokit_1.newOctokitInstance)(githubToken);
 async function run() {
     try {
         const millisInDay = 24 * 3600 * 1000;
-        const minCommitDate = new Date(new Date().getTime() + 14 * millisInDay + (Math.random() * 14 * millisInDay));
+        const minCommitDate = new Date(new Date().getTime() - 14 * millisInDay - (Math.random() * 14 * millisInDay));
         core.debug(`Getting repository commits...`);
         const commits = await octokit.repos.listCommits({
             owner: github_1.context.repo.owner,
@@ -139,10 +139,10 @@ async function run() {
         if (commits.length) {
             const firstCommit = commits[0];
             core.info(`Skipping bumping repository activity`
-                + `, as there is at least one commit since ${minCommitDate}: ${firstCommit.html_url}`);
+                + `, as there is at least one commit since ${minCommitDate.toISOString()}: ${firstCommit.html_url}`);
             return;
         }
-        core.info(`No commits found commit since ${minCommitDate}, bumping the repository activity`);
+        core.info(`No commits found commit since ${minCommitDate.toISOString()}, bumping the repository activity`);
         core.debug(`Getting bumper file info...`);
         const bumperFileInfo = await octokit.repos.getContent({
             owner: github_1.context.repo.owner,
