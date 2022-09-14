@@ -127,6 +127,7 @@ async function run() {
     try {
         const millisInDay = 24 * 3600 * 1000;
         const minCommitDate = new Date(new Date().getTime() + 14 * millisInDay + (Math.random() * 14 * millisInDay));
+        core.debug(`Getting repository commits...`);
         const commits = await octokit.repos.listCommits({
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
@@ -135,10 +136,14 @@ async function run() {
             page: 1,
         }).then(it => it.data);
         if (commits.length) {
-            core.info(`Skipping bumping repository activity, as there is at least one commit since ${minCommitDate}: ${commits[0].html_url}`);
+            const firstCommit = commits[0];
+            core.info(`Skipping bumping repository activity`
+                + `, as there is at least one commit since ${minCommitDate}: ${firstCommit.html_url}`);
+            core.debug(`commits = ${JSON.stringify(commits[0], null, 2)}`);
             return;
         }
         core.info(`No commits found commit since ${minCommitDate}, bumping the repository activity`);
+        core.debug(`Getting bumper file info...`);
         const bumperFileInfo = await octokit.repos.getContent({
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
@@ -166,6 +171,7 @@ async function run() {
             core.warning(`Skipping bumping repository activity, as dry run is enabled`);
             return;
         }
+        core.debug(`Updating bumper file...`);
         const commitResult = await octokit.repos.createOrUpdateFileContents({
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
