@@ -19,6 +19,7 @@ async function run(): Promise<void> {
         const minCommitDate = new Date(new Date().getTime() + 14 * millisInDay + (Math.random() * 14 * millisInDay))
 
 
+        core.debug(`Getting repository commits...`)
         const commits = await octokit.repos.listCommits({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -28,13 +29,18 @@ async function run(): Promise<void> {
         }).then(it => it.data)
 
         if (commits.length) {
-            core.info(`Skipping bumping repository activity, as there is at least one commit since ${minCommitDate}: ${commits[0].html_url}`)
+            const firstCommit = commits[0]
+            core.info(`Skipping bumping repository activity`
+                + `, as there is at least one commit since ${minCommitDate}: ${firstCommit.html_url}`
+            )
+            core.debug(`commits = ${JSON.stringify(commits[0], null, 2)}`)
             return
         }
 
         core.info(`No commits found commit since ${minCommitDate}, bumping the repository activity`)
 
 
+        core.debug(`Getting bumper file info...`)
         const bumperFileInfo = await octokit.repos.getContent({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -64,6 +70,7 @@ async function run(): Promise<void> {
         }
 
 
+        core.debug(`Updating bumper file...`)
         const commitResult = await octokit.repos.createOrUpdateFileContents({
             owner: context.repo.owner,
             repo: context.repo.repo,
