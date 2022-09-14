@@ -126,7 +126,7 @@ const octokit = (0, octokit_1.newOctokitInstance)(githubToken);
 async function run() {
     try {
         const millisInDay = 24 * 3600 * 1000;
-        const minCommitDate = new Date(new Date().getTime() - 14 * millisInDay - (Math.random() * 14 * millisInDay));
+        const minCommitDate = new Date(new Date().getTime() + 14 * millisInDay + (Math.random() * 14 * millisInDay));
         const commits = await octokit.repos.listCommits({
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
@@ -135,10 +135,33 @@ async function run() {
             page: 1,
         }).then(it => it.data);
         if (commits.length) {
-            core.info(`There is at least one commit since ${minCommitDate}`);
+            core.info(`Skipping bumping repository activity, as there is at least one commit since ${minCommitDate}: ${commits[0].html_url}`);
             return;
         }
-        core.info(`No commits found commit since ${minCommitDate}`);
+        core.info(`No commits found commit since ${minCommitDate}, bumping the repository activity`);
+        const bumperFileInfo = await octokit.repos.getContent({
+            owner: github_1.context.repo.owner,
+            repo: github_1.context.repo.repo,
+            path: bumperFile,
+        })
+            .then(it => it.data)
+            .then(it => {
+            if (Array.isArray(it)) {
+                return it.length ? it[0] : undefined;
+            }
+            else {
+                return it;
+            }
+        })
+            .catch(error => {
+            if (error.status && error.status === 404) {
+                return undefined;
+            }
+            else {
+                throw error;
+            }
+        });
+        core.debug(`bumperFileInfo = ${bumperFileInfo != null ? JSON.stringify(bumperFileInfo, null, 2) : null}`);
         if (dryRun) {
             core.warning(`Skipping bumping repository activity, as dry run is enabled`);
             return;
@@ -149,6 +172,7 @@ async function run() {
             path: bumperFile,
             message: commitMessage,
             content: Buffer.from(new Date().toString(), 'utf8').toString('base64'),
+            sha: bumperFileInfo === null || bumperFileInfo === void 0 ? void 0 : bumperFileInfo.sha,
         }).then(it => it.data);
         core.info(`Bumper file was updated: ${commitResult.commit.html_url}`);
     }
