@@ -89,6 +89,5 @@ function parseDate(value: string | undefined | null): Date | undefined {
     if (value == null) {
         return undefined
     }
-
     return new Date(value)
 }
