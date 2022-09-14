@@ -76,7 +76,7 @@ async function run(): Promise<void> {
             repo: context.repo.repo,
             path: bumperFile,
             message: commitMessage,
-            content: Buffer.from(new Date().toString(), 'utf8').toString('base64'),
+            content: Buffer.from(new Date().toISOString(), 'utf8').toString('base64'),
             sha: bumperFileInfo?.sha,
         }).then(it => it.data)
 
