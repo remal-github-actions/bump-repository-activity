@@ -27,13 +27,13 @@ async function run(): Promise<void> {
             per_page: 5,
             page: 1,
         }).then(it => it.data)
+        core.debug(`commits = ${JSON.stringify(commits, null, 2)}`)
 
         if (commits.length) {
             const firstCommit = commits[0]
             core.info(`Skipping bumping repository activity`
                 + `, as there is at least one commit since ${minCommitDate}: ${firstCommit.html_url}`
             )
-            core.debug(`commits = ${JSON.stringify(commits[0], null, 2)}`)
             return
         }
 
@@ -79,6 +79,7 @@ async function run(): Promise<void> {
             content: Buffer.from(new Date().toISOString(), 'utf8').toString('base64'),
             sha: bumperFileInfo?.sha,
         }).then(it => it.data)
+        core.debug(`commitResult = ${JSON.stringify(commitResult, null, 2)}`)
 
         core.info(`Bumper file was updated: ${commitResult.commit.html_url}`)
 
