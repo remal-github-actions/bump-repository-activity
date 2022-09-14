@@ -61,6 +61,7 @@ async function run(): Promise<void> {
                     throw error
                 }
             })
+        core.debug(`bumperFileInfo = ${bumperFileInfo != null ? JSON.stringify(bumperFileInfo, null, 2) : null}`)
 
         const commitResult = await octokit.repos.createOrUpdateFileContents({
             owner: context.repo.owner,
