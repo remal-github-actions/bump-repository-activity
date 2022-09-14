@@ -28,11 +28,11 @@ async function run(): Promise<void> {
         }).then(it => it.data)
 
         if (commits.length) {
-            core.info(`There is at least one commit since ${minCommitDate}: ${commits[0].html_url}`)
+            core.info(`Skipping bumping repository activity, as there is at least one commit since ${minCommitDate}: ${commits[0].html_url}`)
             return
         }
 
-        core.info(`No commits found commit since ${minCommitDate}`)
+        core.info(`No commits found commit since ${minCommitDate}, bumping the repository activity`)
 
 
         if (dryRun) {
