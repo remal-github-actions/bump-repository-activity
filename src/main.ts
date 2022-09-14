@@ -16,7 +16,10 @@ const octokit = newOctokitInstance(githubToken)
 async function run(): Promise<void> {
     try {
         const millisInDay = 24 * 3600 * 1000
-        const minCommitDate = new Date(new Date().getTime() - 14 * millisInDay - (Math.random() * 14 * millisInDay))
+        const minCommitDate = new Date(new Date().getTime() - 14 * millisInDay * 0 - (Math.random()
+            * 14
+            * millisInDay
+            * 0))
 
 
         const commits = await octokit.repos.listCommits({
