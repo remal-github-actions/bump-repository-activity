@@ -35,12 +35,6 @@ async function run(): Promise<void> {
         core.info(`No commits found commit since ${minCommitDate}, bumping the repository activity`)
 
 
-        if (dryRun) {
-            core.warning(`Skipping bumping repository activity, as dry run is enabled`)
-            return
-        }
-
-
         const bumperFileInfo = await octokit.repos.getContent({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -62,6 +56,13 @@ async function run(): Promise<void> {
                 }
             })
         core.debug(`bumperFileInfo = ${bumperFileInfo != null ? JSON.stringify(bumperFileInfo, null, 2) : null}`)
+
+
+        if (dryRun) {
+            core.warning(`Skipping bumping repository activity, as dry run is enabled`)
+            return
+        }
+
 
         const commitResult = await octokit.repos.createOrUpdateFileContents({
             owner: context.repo.owner,
