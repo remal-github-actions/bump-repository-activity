@@ -84,14 +84,12 @@ jobs:
 
     # $$$sync-with-template-modifiable: validation $$$
 
-
     - name: Run current action
       uses: ./
       with:
         dryRun: 'true'
         githubToken: ${{secrets.PUSH_BACK_TOKEN}}
         commitMessage: '[push-back] Bump repository activity'
-
 
     # $$$sync-with-template-modifiable-end$$$
 
