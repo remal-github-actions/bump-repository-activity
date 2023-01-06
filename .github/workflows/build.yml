@@ -88,7 +88,7 @@ jobs:
       uses: ./
       with:
         dryRun: 'true'
-        githubToken: ${{secrets.PUSH_BACK_TOKEN}}
+        githubToken: ${{github.token}}
         commitMessage: '[push-back] Bump repository activity'
 
     # $$$sync-with-template-modifiable-end$$$
