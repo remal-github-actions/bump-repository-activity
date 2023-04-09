@@ -178,7 +178,7 @@ async function run() {
             path: bumperFile,
             message: commitMessage,
             content: Buffer.from(new Date().toISOString(), 'utf8').toString('base64'),
-            sha: bumperFileInfo === null || bumperFileInfo === void 0 ? void 0 : bumperFileInfo.sha,
+            sha: bumperFileInfo?.sha,
         }).then(it => it.data);
         core.debug(`commitResult = ${JSON.stringify(commitResult, null, 2)}`);
         core.info(`Bumper file was updated: ${commitResult.commit.html_url}`);
