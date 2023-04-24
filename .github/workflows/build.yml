@@ -50,7 +50,7 @@ jobs:
 
     - name: Update Node.js version in project files
       run: |
-        node update-node-version-in-files.js "${{steps.readNodeVersion.outputs.result}}"
+        node update-node-version-in-files "${{steps.readNodeVersion.outputs.result}}"
 
 
     - name: Restore node_modules cache
