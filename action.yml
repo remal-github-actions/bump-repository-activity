@@ -18,5 +18,5 @@ inputs:
     description: Set to 'true' to enable dry run
 
 runs:
-  using: node16
+  using: node20
   main: 'dist/index.js'
