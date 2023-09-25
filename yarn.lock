@@ -5901,14 +5901,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:5.0.2":
-  version: 5.0.2
-  resolution: "rimraf@npm:5.0.2"
+"rimraf@npm:5.0.4":
+  version: 5.0.4
+  resolution: "rimraf@npm:5.0.4"
   dependencies:
     glob: ^10.3.7
   bin:
     rimraf: dist/esm/bin.mjs
-  checksum: 82c3876635f635769ee69e1d143e425f27eda9b5391d2f0945b59deda836b4b946b0953d0df990e907209046a510a023e060371756a78749ec0f6e86149d1767
+  checksum: 44230119678153dc46f8e634947123e2a516689818cb1ca4b03c470cb8eece0f6a29135b9c8f785d30e50c34175a58927b8033a9eef0e154a9fab81b80712112
   languageName: node
   linkType: hard
 
@@ -6360,7 +6360,7 @@ __metadata:
     eslint-plugin-jest: 27.4.0
     jest: 29.7.0
     jest-circus: 29.7.0
-    rimraf: 5.0.2
+    rimraf: 5.0.4
     semver: ^7
     ts-jest: 29.1.1
     typescript: 5.2.2
