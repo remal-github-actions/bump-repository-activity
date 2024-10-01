@@ -7344,8 +7344,6 @@ __metadata:
     "@types/jest": "npm:29.5.13"
     "@types/node": "npm:20.16.10"
     "@types/semver": "npm:^7"
-    "@typescript-eslint/eslint-plugin": "npm:8.8.0"
-    "@typescript-eslint/parser": "npm:8.8.0"
     "@vercel/ncc": "npm:0.38.2"
     console-log-level: "npm:1.4.1"
     eslint: "npm:8.57.1"
