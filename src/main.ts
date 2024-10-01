@@ -32,7 +32,7 @@ async function run(): Promise<void> {
         if (commits.length) {
             const firstCommit = commits[0]
             core.info(`Skipping bumping repository activity`
-                + `, as there is at least one commit since ${minCommitDate.toISOString()}: ${firstCommit.html_url}`
+                + `, as there is at least one commit since ${minCommitDate.toISOString()}: ${firstCommit.html_url}`,
             )
             return
         }
@@ -92,12 +92,3 @@ async function run(): Promise<void> {
 
 //noinspection JSIgnoredPromiseFromCall
 run()
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-function parseDate(value: string | undefined | null): Date | undefined {
-    if (value == null) {
-        return undefined
-    }
-    return new Date(value)
-}
