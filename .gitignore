@@ -73,6 +73,7 @@ node_modules/
 .DS_Store
 
 # Remal GitHub actions:
+/.corepack.env
 /.pnp.*
 /.yarn/*
 !/.yarn/patches/
