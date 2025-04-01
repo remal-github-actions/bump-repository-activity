@@ -73,7 +73,6 @@ node_modules/
 .DS_Store
 
 # Remal GitHub actions:
-/.corepack.env
 /.pnp.*
 /.yarn/*
 !/.yarn/patches/
@@ -83,6 +82,5 @@ node_modules/
 !/.yarn/versions/
 /build
 /coverage
-/dist/*
-!/dist/index.js
-!/dist/package.json
+/dist/build
+/dist/*.index.js
