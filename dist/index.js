@@ -38070,6 +38070,7 @@ function newOctokitInstance(token) {
 
 
 const githubToken = core.getInput('githubToken', { required: true });
+const maxInactivityDays = parseInt(core.getInput('maxInactivityDays', { required: true }));
 const bumperFile = core.getInput('bumperFile', { required: true });
 const commitMessage = core.getInput('commitMessage', { required: true });
 const dryRun = core.getInput('dryRun', { required: true }).toLowerCase() === 'true';
@@ -38077,13 +38078,13 @@ const octokit = newOctokitInstance(githubToken);
 async function run() {
     try {
         const millisInDay = 24 * 3600 * 1000;
-        const minCommitDate = new Date(new Date().getTime() - 14 * millisInDay - (Math.random() * 14 * millisInDay));
+        const minCommitDate = new Date(new Date().getTime() - maxInactivityDays * millisInDay);
         core.debug(`Getting repository commits...`);
         const commits = await octokit.repos.listCommits({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             since: minCommitDate.toISOString(),
-            per_page: 5,
+            per_page: 2,
             page: 1,
         }).then(it => it.data);
         core.debug(`commits = ${JSON.stringify(commits, null, 2)}`);
@@ -38135,7 +38136,7 @@ async function run() {
         core.info(`Bumper file was updated: ${commitResult.commit.html_url}`);
     }
     catch (error) {
-        core.setFailed(error instanceof Error ? error : error.toString());
+        core.setFailed(error instanceof Error ? error : `${error}`);
         throw error;
     }
 }
