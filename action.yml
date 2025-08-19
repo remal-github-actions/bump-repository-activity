@@ -18,7 +18,6 @@ inputs:
     required: true
     description: Commit message
   dryRun:
-    required: true
     default: 'false'
     description: Set to 'true' to enable dry run
 
