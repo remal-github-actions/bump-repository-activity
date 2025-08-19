@@ -6,6 +6,10 @@ inputs:
     required: true
     default: '${{github.token}}'
     description: GitHub access token
+  maxInactivityDays:
+    required: true
+    default: '14'
+    description: Max inactivity days. If there are no commits during this duration, a new commit will be created.
   bumperFile:
     required: true
     default: 'repository-activity.bumper'
