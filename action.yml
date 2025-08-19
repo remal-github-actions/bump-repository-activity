@@ -4,6 +4,7 @@ description: Template action description
 inputs:
   githubToken:
     required: true
+    default: '${{github.token}}'
     description: GitHub access token
   bumperFile:
     required: true
