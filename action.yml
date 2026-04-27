@@ -22,5 +22,5 @@ inputs:
     description: Set to 'true' to enable dry run
 
 runs:
-  using: node20
+  using: node24
   main: 'dist/index.js'
