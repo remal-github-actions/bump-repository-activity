@@ -14,8 +14,8 @@ pull_request_rules:
   - '-draft'
   - '#changes-requested-reviews-by=0'
   - 'check-success=build'
-  - '-check-pending~=^(?!(Mergify Merge Queue)$).+'
-  - '-check-neutral~=^(?!(Mergify Merge Queue)$).+'
+  - '-check-pending~=^(?!(@mergify/)?Mergify Merge Queue$).+'
+  - '-check-neutral~=^(?!(@mergify/)?Mergify Merge Queue$).+'
   - '#check-failure=0'
   - '#check-timed-out=0'
   actions:
@@ -36,8 +36,8 @@ pull_request_rules:
   - '-draft'
   - '#changes-requested-reviews-by=0'
   - 'check-success=build'
-  - '-check-pending~=^(?!(Mergify Merge Queue)$).+'
-  - '-check-neutral~=^(?!(Mergify Merge Queue)$).+'
+  - '-check-pending~=^(?!(@mergify/)?Mergify Merge Queue$).+'
+  - '-check-neutral~=^(?!(@mergify/)?Mergify Merge Queue$).+'
   - '#check-failure=0'
   - '#check-timed-out=0'
   actions:
