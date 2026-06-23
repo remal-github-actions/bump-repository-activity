@@ -29,6 +29,19 @@ function writeJsonFile(path, json) {
 })()
 
 ;(function() {
+    const content = fs.readFileSync('.tool-versions', encoding)
+    const match = content.match(/^nodejs\s+(\d+)\.\d+\.\d+$/m)
+    const currentVer = match && parseInt(match[1])
+    if (currentVer != null && currentVer !== nodeVersion) {
+        const modifiedContent = content.replace(
+            /^(nodejs\s+)\d+\.\d+\.\d+$/m,
+            `$1${nodeVersion}.0.0`
+        )
+        fs.writeFileSync('.tool-versions', modifiedContent, encoding)
+    }
+})()
+
+;(function() {
     const json = readJsonFile('package.json')
 
     json.engines = json.engines || {}
@@ -48,7 +61,9 @@ function writeJsonFile(path, json) {
         'devDependencies',
     ].forEach(dependenciesKey => {
         const dependencies = json[dependenciesKey]
-        if (dependencies == null) return
+        if (dependencies == null) {
+            return
+        }
 
         Object.entries(dependencies).forEach(([dependency, version]) => {
             if (dependency.startsWith('@tsconfig/node') && dependency !== `@tsconfig/node${nodeVersion}`) {
