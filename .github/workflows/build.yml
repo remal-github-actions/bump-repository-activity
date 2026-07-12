@@ -5,6 +5,7 @@ on:
     branches:
     - main
   pull_request: { }
+  workflow_dispatch: { }
 
 permissions:
   id-token: write
@@ -63,6 +64,10 @@ jobs:
       uses: ./.github/actions/install-dependencies
       with:
         nodeVersion: '${{steps.read-node-version.outputs.result}}'
+
+
+    # $$$sync-with-template-modifiable: code generation $$$
+    # $$$sync-with-template-modifiable-end$$$
 
 
     - name: Build
