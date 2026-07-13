@@ -5,6 +5,8 @@ on:
     branches:
     - main
   pull_request: { }
+  schedule:
+  - cron: '13 13 * * 1' # sync-with-template: adjust
   workflow_dispatch: { }
 
 permissions:
@@ -98,7 +100,7 @@ jobs:
 
 
     - name: Push back
-      if: ${{github.event_name == 'push' && startsWith(github.ref, 'refs/heads/')}}
+      if: ${{startsWith(github.ref, 'refs/heads/')}}
       uses: remal-github-actions/push-back@v2
       with:
         message: '[push-back] Push-back updated files during build'
@@ -106,11 +108,11 @@ jobs:
 
     - name: Read version
       id: readVersion
-      if: ${{github.event_name == 'push' && github.ref == 'refs/heads/main'}}
+      if: ${{github.ref == 'refs/heads/main'}}
       uses: remal-github-actions/read-nodejs-package-version@v1
 
     - name: Remove files listed in .releaseignore
-      if: ${{github.event_name == 'push' && github.ref == 'refs/heads/main'}}
+      if: ${{github.ref == 'refs/heads/main'}}
       id: releaseignore
       uses: actions/github-script@v9
       with:
@@ -153,7 +155,7 @@ jobs:
             })
 
     - name: Prepare release commit
-      if: ${{github.event_name == 'push' && github.ref == 'refs/heads/main' && !steps.releaseignore.outputs.skipped}}
+      if: ${{github.ref == 'refs/heads/main' && !steps.releaseignore.outputs.skipped}}
       env:
         MAJOR_VERSION: ${{steps.readVersion.outputs.majorVersion}}
       run: |
@@ -164,7 +166,7 @@ jobs:
         git push --force origin "$RELEASE_BRANCH"
 
     - name: Create tag
-      if: ${{github.event_name == 'push' && github.ref == 'refs/heads/main'}}
+      if: ${{github.ref == 'refs/heads/main'}}
       uses: remal-github-actions/create-tag@v2
       with:
         tagName: 'v${{steps.readVersion.outputs.majorVersion}}'
